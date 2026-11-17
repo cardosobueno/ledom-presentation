@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ledom Seguros · Suíte de Criativos com IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* Paleta extraída do escudo Ledom + referências Private */
+      --navy-deep: #030a18;
+      --navy-page: #051126;
+      --navy-radial: #0d234a;
+      --navy-card: #0a1834;
+      --navy-raised: #0e2042;
+      --gold: #dbad50;
+      --gold-soft: #e6c47a;
+      --gold-dim: rgba(219, 173, 80, 0.36);
+      --gold-tint: rgba(219, 173, 80, 0.12);
+      --white: #ffffff;
+      --surface-light: #f6f7f9;
+      --ink-light: #f5f7fb;
+      --ink-muted: rgba(245, 247, 251, 0.68);
+      --ink-subtle: rgba(245, 247, 251, 0.46);
+      --ink-dark: #0a1834;
+      --ink-dark-muted: rgba(10, 24, 52, 0.66);
+      --hairline: rgba(255, 255, 255, 0.1);
+      --hairline-strong: rgba(255, 255, 255, 0.18);
+      --hairline-light: rgba(10, 24, 52, 0.1);
+      --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--navy-deep);
+      color: var(--ink-light);
+      line-height: 1.55;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* Evita estouro de largura em itens de CSS Grid no mobile */
+    .hero > *,
+    .pillars-grid > *,
+    .workflow-grid > *,
+    .investment-panel > * {
+      min-width: 0;
+    }
+
+    /* Bandas de cor alternadas (Navy Abissal + Branco Nítido) */
+    .band-navy {
+      position: relative;
+      background:
+        radial-gradient(900px 520px at 50% -60px, rgba(21, 56, 114, 0.42), transparent 70%),
+        linear-gradient(180deg, var(--navy-page) 0%, var(--navy-deep) 100%);
+    }
+
+    .band-navy-lower {
+      position: relative;
+      background:
+        radial-gradient(760px 440px at 80% 10%, rgba(21, 56, 114, 0.32), transparent 70%),
+        linear-gradient(180deg, var(--navy-page) 0%, #030916 100%);
+    }
+
+    .band-light {
+      background-color: var(--surface-light);
+      color: var(--ink-dark);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* 1. Assinatura Institucional (Estilo Personnalité / Stratos / Pelagic) */
+    .signature-header {
+      padding: 52px 0 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .brand-squircle {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      background: var(--white);
+      display: grid;
+      place-items: center;
+      padding: 12px;
+      box-shadow:
+        0 14px 36px rgba(0, 0, 0, 0.45),
+        inset 0 0 0 1px rgba(10, 24, 52, 0.06);
+    }
+
+    .brand-squircle img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-rule {
+      width: 200px;
+      height: 1.5px;
+      background: var(--gold);
+      margin: 22px 0 16px;
+      opacity: 0.92;
+    }
+
+    .brand-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--white);
+      padding-left: 0.3em;
+    }
+
+    .brand-subtitle {
+      margin-top: 6px;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-subtle);
+      padding-left: 0.22em;
+    }
+
+    /* 2. Hero Editorial + Cartão Private */
+    .hero {
+      padding: 36px 0 76px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .kicker {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 18px;
+      height: 1.5px;
+      background: var(--gold);
+      display: inline-block;
+    }
+
+    .hero-title {
+      font-size: clamp(1.85rem, 3.8vw, 3.05rem);
+      line-height: 1.14;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      color: var(--white);
+    }
+
+    .hero-title .accent-line {
+      display: block;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .hero-lead {
+      margin-top: 22px;
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      color: var(--ink-muted);
+      max-width: 52ch;
+    }
+
+    .hero-highlights {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      border: 1px solid var(--hairline-strong);
+      color: var(--ink-light);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .pill--solid {
+      background: var(--white);
+      color: var(--navy-card);
+      border-color: var(--white);
+      font-weight: 600;
+    }
+
+    /* Cartão Metálico Ledom Private (Estilo Stratos / Personnalité) */
+    .card-stage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 18px 8px;
+      perspective: 1100px;
+    }
+
+    .private-card {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 1.586 / 1;
+      border-radius: 18px;
+      padding: 26px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0) 42%),
+        radial-gradient(280px 200px at 85% 20%, rgba(219, 173, 80, 0.16), transparent 70%),
+        linear-gradient(155deg, #0e2248 0%, #091630 55%, #050d1e 100%);
+      border: 1px solid rgba(219, 173, 80, 0.45);
+      box-shadow:
+        0 28px 60px rgba(0, 0, 0, 0.58),
+        0 0 0 1px rgba(255, 255, 255, 0.07) inset;
+      transform: rotate(-5.5deg);
+      transition: transform 320ms var(--ease-out), box-shadow 320ms var(--ease-out);
+      overflow: hidden;
+    }
+
+    .private-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      background: linear-gradient(
+        118deg,
+        transparent 28%,
+        rgba(255, 255, 255, 0.06) 46%,
+        rgba(219, 173, 80, 0.08) 50%,
+        transparent 62%
+      );
+      pointer-events: none;
+    }
+
+    .private-card:hover {
+      transform: rotate(-2deg) translateY(-4px);
+      box-shadow:
+        0 34px 70px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(219, 173, 80, 0.25) inset;
+    }
+
+    .private-card__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .private-card__chip {
+      width: 40px;
+      height: 29px;
+      border-radius: 6px;
+      border: 1px solid rgba(219, 173, 80, 0.58);
+      background: linear-gradient(135deg, rgba(219, 173, 80, 0.24), rgba(219, 173, 80, 0.06));
+      position: relative;
+    }
+
+    .private-card__chip::before,
+    .private-card__chip::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(219, 173, 80, 0.38);
+    }
+
+    .private-card__chip::before {
+      inset: 6px 11px;
+      border-radius: 2px;
+    }
+
+    .private-card__chip::after {
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 0;
+      border-width: 1px 0 0 0;
+    }
+
+    .private-card__seal {
+      width: 46px;
+      height: 46px;
+      border-radius: 11px;
+      background: var(--white);
+      padding: 7px;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+    }
+
+    .private-card__seal img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .private-card__mid {
+      margin-top: 12px;
+    }
+
+    .private-card__label {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold-soft);
+    }
+
+    .private-card__name {
+      margin-top: 4px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .private-card__bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 6px 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    .private-card__tier {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    /* 3. Os 2 Pilares (Estilo Especificações Vespera Chronomètre) */
+    .pillars-section {
+      padding: 16px 0 84px;
+      border-top: 1px solid var(--hairline);
+    }
+
+    .section-header {
+      padding-top: 56px;
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-size: clamp(1.45rem, 2.5vw, 1.95rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--white);
+    }
+
+    .section-note {
+      font-size: 0.9375rem;
+      color: var(--ink-muted);
+      max-width: 44ch;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+    }
+
+    .pillar-card {
+      background: linear-gradient(180deg, rgba(14, 32, 66, 0.72) 0%, rgba(8, 20, 44, 0.92) 100%);
+      border: 1px solid var(--hairline);
+      border-top: 2px solid var(--gold);
+      border-radius: 14px;
+      padding: 34px 32px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 240ms var(--ease-out), transform 240ms var(--ease-out);
+    }
+
+    .pillar-card:hover {
+      border-color: var(--hairline-strong);
+      border-top-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .pillar-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .pillar-index {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .pillar-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--white);
+    }
+
+    .pillar-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--gold-dim);
+      background: var(--gold-tint);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      color: var(--gold-soft);
+    }
+
+    .pillar-role {
+      margin-top: 10px;
+      font-size: 0.95rem;
+      color: var(--ink-muted);
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .spec-heading {
+      margin-top: 22px;
+      margin-bottom: 14px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .spec-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .spec-list li {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 0.95rem;
+      color: var(--ink-light);
+    }
+
+    .spec-num {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--gold);
+    }
+
+    /* 4. Faixa Clara: Fluxo Operacional em 4 Módulos Navy (Estilo Aurelia DSP + App Personnalité) */
+    .workflow-section {
+      padding: 68px 0 76px;
+    }
+
+    .workflow-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 34px;
+      flex-wrap: wrap;
+    }
+
+    .workflow-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #8f681c;
+      margin-bottom: 8px;
+    }
+
+    .workflow-title {
+      font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink-dark);
+    }
+
+    .workflow-sub {
+      font-size: 0.9375rem;
+      color: var(--ink-dark-muted);
+      max-width: 44ch;
+    }
+
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .module-card {
+      position: relative;
+      background: var(--navy-card);
+      color: var(--white);
+      border-radius: 14px;
+      padding: 24px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 176px;
+      box-shadow: 0 12px 28px rgba(10, 24, 52, 0.12);
+      transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out);
+    }
+
+    .module-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 36px rgba(10, 24, 52, 0.2);
+    }
+
+    .module-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .module-icon {
+      width: 34px;
+      height: 34px;
+      color: var(--gold-soft);
+      display: grid;
+      place-items: center;
+    }
+
+    .module-step {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      color: var(--ink-subtle);
+    }
+
+    .module-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .module-desc {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--ink-muted);
+    }
+
+    /* 5. Investimento Mensal & Fechamento */
+    .investment-section {
+      padding: 76px 0 60px;
+    }
+
+    .investment-panel {
+      background:
+        radial-gradient(520px 320px at 85% 30%, rgba(219, 173, 80, 0.08), transparent 70%),
+        linear-gradient(180deg, rgba(12, 28, 58, 0.85) 0%, rgba(7, 17, 38, 0.96) 100%);
+      border: 1px solid var(--hairline-strong);
+      border-radius: 18px;
+      padding: 44px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .inv-main {
+      flex: 1 1 380px;
+    }
+
+    .inv-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .inv-amount {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .inv-currency {
+      font-size: clamp(2.4rem, 4.8vw, 3.6rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      line-height: 1.05;
+    }
+
+    .inv-period {
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--ink-muted);
+    }
+
+    .inv-desc {
+      margin-top: 14px;
+      font-size: 0.975rem;
+      color: var(--ink-muted);
+      max-width: 50ch;
+    }
+
+    .inv-pills {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Scroll-trigger reveal (executa uma vez e se mantém visível) */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(20px);
+      transition:
+        opacity 600ms var(--ease-out),
+        transform 600ms var(--ease-out);
+      transition-delay: var(--reveal-delay, 0ms);
+    }
+
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Rodapé */
+    .closing-footer {
+      padding: 40px 0 56px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .closing-quote {
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--ink-light);
+      max-width: 58ch;
+    }
+
+    .closing-quote strong {
+      color: var(--gold-soft);
+      font-weight: 600;
+    }
+
+    .closing-meta {
+      margin-top: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--ink-subtle);
+    }
+
+    /* Responsividade */
+    @media (max-width: 960px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding-bottom: 60px;
+      }
+
+      .private-card {
+        transform: rotate(-2.5deg);
+      }
+
+      .pillars-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .workflow-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .investment-panel {
+        grid-template-columns: 1fr;
+        padding: 32px 28px;
+        gap: 32px;
+      }
+
+      .telemetry-box {
+        border-left: none;
+        border-top: 1px solid var(--hairline);
+        padding-left: 0;
+        padding-top: 26px;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .container {
+        padding: 0 20px;
+      }
+
+      .signature-header {
+        padding: 36px 0 24px;
+      }
+
+      .brand-squircle {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+      }
+
+      .brand-rule {
+        width: 150px;
+      }
+
+      .brand-title {
+        letter-spacing: 0.22em;
+        padding-left: 0.22em;
+      }
+
+      .brand-subtitle {
+        font-size: 0.65rem;
+        letter-spacing: 0.13em;
+        padding-left: 0.13em;
+      }
+
+      .card-stage {
+        padding: 8px 4px;
+      }
+
+      .private-card {
+        transform: rotate(0deg);
+        padding: 20px 20px;
+        max-width: 100%;
+      }
+
+      .private-card__name {
+        font-size: 1.02rem;
+      }
+
+      .pillar-card {
+        padding: 26px 22px;
+      }
+
+      .workflow-section {
+        padding: 52px 0 58px;
+      }
+
+      .workflow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .module-card {
+        min-height: 140px;
+      }
+
+      .investment-section {
+        padding: 54px 0 42px;
+      }
+
+      .investment-panel {
+        padding: 26px 20px;
+      }
+
+      .bars-wrap {
+        gap: 6px;
+        height: 108px;
+      }
+
+      .bar-tag {
+        font-size: 0.62rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+
+      [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      body {
+        background: var(--navy-deep);
+      }
+
+      .signature-header {
+        padding: 24px 0 14px;
+      }
+
+      .brand-squircle {
+        width: 58px;
+        height: 58px;
+      }
+
+      .brand-rule {
+        margin: 14px 0 10px;
+      }
+
+      .hero {
+        padding: 12px 0 28px;
+        gap: 24px;
+        break-inside: avoid;
+      }
+
+      .pillars-section {
+        break-before: page;
+        border-top: none;
+        padding-top: 12px;
+        padding-bottom: 32px;
+      }
+
+      .section-header,
+      .workflow-header {
+        padding-top: 24px;
+        margin-bottom: 20px;
+        break-after: avoid;
+      }
+
+      .pillar-card,
+      .module-card,
+      .investment-panel,
+      .closing-footer {
+        break-inside: avoid;
+      }
+
+      .pillar-card {
+        padding: 22px 22px;
+      }
+
+      .workflow-section {
+        padding: 28px 0 34px;
+        break-inside: avoid;
+      }
+
+      .investment-section {
+        padding: 30px 0 18px;
+      }
+
+      .investment-panel {
+        padding: 28px 28px;
+      }
+
+      .closing-footer {
+        padding: 18px 0 24px;
+      }
+
+      .private-card:hover,
+      .pillar-card:hover,
+      .module-card:hover {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BLOCO SUPERIOR: ASSINATURA + HERO + OS 2 PILARES -->
+  <div class="band-navy">
+    <div class="container">
+
+      <!-- 1. Assinatura Ledom -->
+      <header class="signature-header" data-reveal>
+        <div class="brand-squircle">
+          <img src="logo-ledom.png" alt="Escudo Ledom Seguros" />
+        </div>
+        <div class="brand-rule" aria-hidden="true"></div>
+        <div class="brand-title">Ledom Seguros</div>
+        <div class="brand-subtitle">Suíte de Criativos · Operação com IA</div>
+      </header>
+
+      <!-- 2. Hero Editorial + Cartão Ledom Private -->
+      <section class="hero" aria-label="Visão geral da suíte">
+        <div data-reveal style="--reveal-delay: 80ms;">
+          <div class="kicker">Estrutura de Produção</div>
+          <h1 class="hero-title">
+            <span class="accent-line">Produção mensal completa</span>
+            para mídias sociais
+          </h1>
+          <p class="hero-lead">
+            Apenas duas assinaturas dão à Ledom uma operação própria de criativos, do roteiro e criação visual até a voz oficial do Leo e o acabamento sonoro.
+          </p>
+          <div class="hero-highlights">
+            <span class="pill">2 Ferramentas</span>
+            <span class="pill">Vídeos assíncronos</span>
+            <span class="pill">Voz &amp; Avatar do Leo</span>
+          </div>
+        </div>
+
+        <div class="card-stage" aria-hidden="true" data-reveal style="--reveal-delay: 160ms;">
+          <div class="private-card">
+            <div class="private-card__top">
+              <div class="private-card__chip"></div>
+              <div class="private-card__seal">
+                <img src="logo-ledom.png" alt="" />
+              </div>
+            </div>
+            <div class="private-card__mid">
+              <div class="private-card__label">Creative Infrastructure</div>
+              <div class="private-card__name">Ledom Private Suite</div>
+            </div>
+            <div class="private-card__bottom">
+              <span>Gemini Pro · ElevenLabs</span>
+              <span class="private-card__tier">Operação Contínua</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Os 2 Pilares (Especificações Numeradas) -->
+      <section class="pillars-section" aria-label="Ferramentas necessárias">
+        <div class="section-header" data-reveal>
+          <div>
+            <div class="kicker">As Ferramentas</div>
+            <h2 class="section-title">Dois papéis bem definidos</h2>
+          </div>
+          <p class="section-note">
+            Cada plataforma cuida de uma metade do processo para que nenhuma etapa dependa de terceiros ou de gravações presenciais.
+          </p>
+        </div>
+
+        <div class="pillars-grid">
+          <!-- Pilar 01: Google Gemini Pro -->
+          <article class="pillar-card" data-reveal style="--reveal-delay: 80ms;">
+            <div class="pillar-head">
+              <div>
+                <div class="pillar-index">Pilar 01 · O Cérebro</div>
+                <h3 class="pillar-name">Google Gemini Pro</h3>
+              </div>
+              <div class="pillar-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" />
+                  <circle cx="12" cy="12" r="4" />
+                </svg>
+              </div>
+            </div>
+            <p class="pillar-role">
+              Conduz toda a inteligência da operação: planejamento, roteiro, textos e geração visual.
+            </p>
+            <div class="spec-heading">O que entrega na prática</div>
+            <ul class="spec-list">
+              <li><span class="spec-num">01.</span><span>Criação de ideias e roteiros para vídeos e anúncios</span></li>
+              <li><span class="spec-num">02.</span><span>Textos, legendas e variações de abordagem comercial</span></li>
+              <li><span class="spec-num">03.</span><span>Geração de imagens e cenas em vídeo com IA</span></li>
+              <li><span class="spec-num">04.</span><span>Pesquisa de pautas e organização das campanhas</span></li>
+            </ul>
+          </article>
+
+          <!-- Pilar 02: ElevenLabs Creator -->
+          <article class="pillar-card" data-reveal style="--reveal-delay: 160ms;">
+            <div class="pillar-head">
+              <div>
+                <div class="pillar-index">Pilar 02 · A Voz e o Som</div>
+                <h3 class="pillar-name">ElevenLabs Creator</h3>
+              </div>
+              <div class="pillar-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 12v0m4-5v10m4-13v16m4-11v6m4-3v0" />
+                </svg>
+              </div>
+            </div>
+            <p class="pillar-role">
+              Coloca a presença do Leo e a ambientação sonora em qualquer vídeo, sem agenda de estúdio.
+            </p>
+            <div class="spec-heading">O que entrega na prática</div>
+            <ul class="spec-list">
+              <li><span class="spec-num">01.</span><span>Clonagem da voz do Leo para vídeos assíncronos</span></li>
+              <li><span class="spec-num">02.</span><span>Criação de avatar de IA para apresentar os conteúdos</span></li>
+              <li><span class="spec-num">03.</span><span>Geração de músicas de fundo sob medida para cada peça</span></li>
+              <li><span class="spec-num">04.</span><span>Efeitos sonoros e acabamento profissional de áudio</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- BLOCO CLARO DE CONTRASTE: FLUXO EM 4 MÓDULOS NAVY -->
+  <section class="band-light workflow-section" aria-label="Como funciona na prática">
+    <div class="container">
+      <div class="workflow-header" data-reveal>
+        <div>
+          <div class="workflow-kicker">Fluxo Operacional</div>
+          <h2 class="workflow-title">Do assunto à peça publicada em 4 passos</h2>
+        </div>
+        <p class="workflow-sub">
+          As duas ferramentas trabalham em sequência para gerar criativos novos toda semana com consistência.
+        </p>
+      </div>
+
+      <div class="workflow-grid">
+        <div class="module-card" data-reveal style="--reveal-delay: 60ms;">
+          <div class="module-top">
+            <div class="module-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 8v4l2.5 2.5" />
+              </svg>
+            </div>
+            <span class="module-step">01</span>
+          </div>
+          <div>
+            <h3 class="module-title">Ideia &amp; Pauta</h3>
+            <p class="module-desc">Define-se o tema de seguro ou proteção que a Ledom quer comunicar.</p>
+          </div>
+        </div>
+
+        <div class="module-card" data-reveal style="--reveal-delay: 130ms;">
+          <div class="module-top">
+            <div class="module-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="14" rx="2" />
+                <path d="M8 20h8M12 18v2" />
+              </svg>
+            </div>
+            <span class="module-step">02</span>
+          </div>
+          <div>
+            <h3 class="module-title">Roteiro &amp; Cenas</h3>
+            <p class="module-desc">O Gemini estrutura a fala, os textos e cria as imagens e vídeos base.</p>
+          </div>
+        </div>
+
+        <div class="module-card" data-reveal style="--reveal-delay: 200ms;">
+          <div class="module-top">
+            <div class="module-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z" />
+                <path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v3M8 21h8" />
+              </svg>
+            </div>
+            <span class="module-step">03</span>
+          </div>
+          <div>
+            <h3 class="module-title">Voz do Leo &amp; Som</h3>
+            <p class="module-desc">O ElevenLabs gera a narração clonada, o avatar, a trilha e os efeitos.</p>
+          </div>
+        </div>
+
+        <div class="module-card" data-reveal style="--reveal-delay: 270ms;">
+          <div class="module-top">
+            <div class="module-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="6 4 20 12 6 20 6 4" />
+              </svg>
+            </div>
+            <span class="module-step">04</span>
+          </div>
+          <div>
+            <h3 class="module-title">Criativo Pronto</h3>
+            <p class="module-desc">Material finalizado para rodar em anúncios, redes sociais e WhatsApp.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCO INFERIOR: INVESTIMENTO MENSAL & FECHAMENTO -->
+  <div class="band-navy-lower">
+    <div class="container">
+      <section class="investment-section" aria-label="Investimento mensal em ferramentas">
+        <div class="investment-panel" data-reveal>
+          <div class="inv-main">
+            <div class="inv-kicker">Investimento Mensal Total</div>
+            <div class="inv-amount">
+              <span class="inv-currency">≈ R$ 230</span>
+              <span class="inv-period">/ mês</span>
+            </div>
+            <p class="inv-desc">
+              Custo mensal aproximado para manter as duas assinaturas ativas e toda a estrutura de criação operando de forma contínua.
+            </p>
+          </div>
+          <div class="inv-pills">
+            <span class="pill">Suíte Completa</span>
+            <span class="pill">Google Gemini Pro</span>
+            <span class="pill">ElevenLabs Creator</span>
+          </div>
+        </div>
+      </section>
+
+      <footer class="closing-footer" data-reveal style="--reveal-delay: 80ms;">
+        <p class="closing-quote">
+          Menos de <strong>R$ 8 por dia</strong> para manter roteiro, imagem, vídeo, trilha e a voz do Leo produzindo pela Ledom.
+        </p>
+        <div class="closing-meta">Ledom Seguros · Apresentação de Ferramentas</div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const items = document.querySelectorAll("[data-reveal]");
+      if (!("IntersectionObserver" in window)) {
+        items.forEach((el) => el.classList.add("is-visible"));
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-visible");
+            obs.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -24px 0px" }
+      );
+
+      items.forEach((el) => observer.observe(el));
+    })();
+  </script>
+
+</body>
+</html>
